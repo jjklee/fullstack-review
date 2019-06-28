@@ -9,7 +9,8 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      repos: []
+      repos: [],
+      username: ''
     }
 
     this.getRepos = this.getRepos.bind(this);
@@ -23,6 +24,7 @@ class App extends React.Component {
   search (username) {
     console.log(`${username} was searched`);
     // TODO
+    this.setState({ repos: [] });
     axios
       .post('/repos', {
         username: username
@@ -41,16 +43,19 @@ class App extends React.Component {
       })
       .then(repos => {
         this.setState({ repos });
-        console.log(this.state);
       })
       .catch(err => console.error('Error getting Data'))
   }
 
   updateState({data}) {
-    console.log('===', data);
+    let len = 25;
+    if (data.length < 25) {
+      len = data.length;
+    }
+
     let repos = []
-    for(let i = 0; i < data.length; i++) {
-      repos.push(data[0].reponame)
+    for(let i = 0; i < len; i++) {
+      repos.push(data[i].reponame)
     }
     return repos;
   }

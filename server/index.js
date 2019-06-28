@@ -28,7 +28,7 @@ app.get('/repos', function (req, res) {
   // This route should send back the top 25 repos
   Repo.find({}, (err, data) => {
     if(err) {
-      res.status(404).send('Error getting all data from databse');
+      res.status(404).send('Error getting all data from database');
     } else {
       res.status(200).send(data)
     }
