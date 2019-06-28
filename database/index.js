@@ -3,28 +3,25 @@ mongoose.connect('mongodb://localhost/fetcher');
 
 let repoSchema = mongoose.Schema({
   // TODO: your schema here!
-  repos: [{
-    id: Number,
-    name: String
-  }],
-  ownerlogin: String,
+  repoid: Number,
+  reponame: String,
+  repourl: String,
+  username: String,
   ownerid: Number,
-  repocount: Number,
 });
 
 let Repo = mongoose.model('Repo', repoSchema);
 
 let save = (data) => {
   // TODO: Your code here
+  console.log('====', data);
   // This function should save a repo or repos to the MongoDB
   const newrepo = new Repo ({
-    repos: [{
-      id: 0,
-      name: ''
-    }],
-    ownerlogin: '',
-    ownerid: 0,
-    repocount: 0,
+    repoid: data.repoid,
+    reponame: data.reponame,
+    repourl: data.repourl,
+    username: data.username,
+    ownerid: data.ownerid
   })
 
   newrepo.save((err) => {
@@ -36,4 +33,4 @@ let save = (data) => {
   })
 }
 
-module.exports = { save };
+module.exports = { save, Repo };
