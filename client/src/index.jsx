@@ -10,7 +10,6 @@ class App extends React.Component {
     super(props);
     this.state = {
       repos: [],
-      username: ''
     }
 
     this.getRepos = this.getRepos.bind(this);
@@ -23,7 +22,6 @@ class App extends React.Component {
 
   search (username) {
     console.log(`${username} was searched`);
-    // TODO
     this.setState({ repos: [] });
     axios
       .post('/repos', {
@@ -36,8 +34,9 @@ class App extends React.Component {
   }
 
   getRepos() {
+    let username = this.state.username
     axios
-      .get('/repos')
+      .get('/repos', { params: { username }})
       .then(data => {
         return this.updateState(data);
       })
