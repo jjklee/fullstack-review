@@ -1,8 +1,8 @@
 const express = require('express');
 const parser = require('body-parser');
-const getReposByUsername = require('../helpers/github.js')
+const {getReposByUsername} = require('../helpers/github.js')
 let app = express();
-const save = require('../database/index.js');
+// const save = require('../database/index.js');
 
 app.use(parser.json());
 app.use(parser.urlencoded({extended: true}));
@@ -15,11 +15,9 @@ app.post('/repos', function (req, res) {
   // and get the repo information from the github API, then
   // save the repo information in the database
   let username = req.body.username;
-  let data = geReposByUsername(username);
+  let data = getReposByUsername(username);
 
-  //create new instance in database
-  save(data)
-  res.status(201).send('Succesfully posted');
+  res.status(201).send('Succesfully posted repo');
 });
 
 app.get('/repos', function (req, res) {

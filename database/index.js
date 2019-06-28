@@ -27,7 +27,7 @@ let save = (data) => {
     repocount: 0,
   })
 
-  await newrepo.save((err) => {
+  newrepo.save((err) => {
     if (err) {
       console.error(err);
     } else {
@@ -36,4 +36,4 @@ let save = (data) => {
   })
 }
 
-module.exports.save = save;
+module.exports = { save };
