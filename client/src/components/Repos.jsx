@@ -1,7 +1,9 @@
 import React from 'react';
 
 const Repos = (props) => (
-  <div>{props.repo}</div>
+  <div>
+  <a href={`${props.url}`}>{props.repo}</a>
+  </div>
 )
 
 export default Repos;

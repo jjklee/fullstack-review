@@ -22,7 +22,6 @@ class App extends React.Component {
 
   search (username) {
     console.log(`${username} was searched`);
-    this.setState({ repos: [] });
     axios
       .post('/repos', {
         username: username
@@ -34,16 +33,15 @@ class App extends React.Component {
   }
 
   getRepos() {
-    let username = this.state.username
     axios
-      .get('/repos', { params: { username }})
+      .get('/repos')
       .then(data => {
         return this.updateState(data);
       })
       .then(repos => {
         this.setState({ repos });
       })
-      .catch(err => console.error('Error getting Data'))
+      .catch(err => console.error('Error getting data'))
   }
 
   updateState({data}) {
@@ -51,10 +49,16 @@ class App extends React.Component {
     if (data.length < 25) {
       len = data.length;
     }
-
     let repos = []
     for(let i = 0; i < len; i++) {
-      repos.push(data[i].reponame)
+      let singleRepo = {
+        reponame: '',
+        repourl: ''
+      }
+
+      singleRepo.reponame = data[i].reponame,
+      singleRepo.repourl = data[i].repourl
+      repos.push(singleRepo)
     }
     return repos;
   }
