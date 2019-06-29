@@ -3,26 +3,33 @@ const parser = require('body-parser');
 const getReposByUsername = require('../helpers/github.js')
 let app = express();
 const { save, Repo } = require('../database/index.js');
-// let username = '';
+
 app.use(parser.json());
 app.use(parser.urlencoded({extended: true}));
 
 app.use(express.static(__dirname + '/../client/dist'));
 
 app.post('/repos', function (req, res) {
-  // Repo.collection.drop();
   let username = req.body.username;
-  getReposByUsername(username, (data) => {
-    save(data)
 
-  });
-   res.status(201).send('Succesfully posted');
+  //check to see if user exists in database
+  Repo.find({ username }, (err, data) => {
+    if(err) {
+      res.status(404).send('Error getting all data from database');
+    } else if (data.length === 0) {
+      getReposByUsername(username, (data) => {
+        save(data)
+      });
+      res.status(201).send('Succesfully posted');
+    } else {
+      res.status(201).send('User already exists');
+    }
+  })
 });
 
 app.get('/repos', function (req, res) {
   // This route should send back the top 25 repos
   let username = req.query.username;
-  // console.log('====', username);
   Repo.find({ username }, (err, data) => {
     if(err) {
       res.status(404).send('Error getting all data from database');
@@ -31,12 +38,6 @@ app.get('/repos', function (req, res) {
     }
   })
 });
-
-// app.get('/allusers', function(req, res) {
-//   Repo.find({}, (err, data) => {
-
-//   })
-// })
 
 let port = 1128;
 

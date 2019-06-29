@@ -28,7 +28,7 @@ class App extends React.Component {
       })
       .then(() => {
         this.getRepos(username);
-        // console.log('Sucessfully searched');
+        console.log('Sucessfully searched');
       })
       .catch(err => console.error('Error posting data'));
   }
@@ -37,7 +37,6 @@ class App extends React.Component {
     axios
       .get('/repos', { params: {username}})
       .then(data => {
-        console.log('===', data)
         return this.updateState(data);
       })
       .then(repos => {
