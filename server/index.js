@@ -3,17 +3,15 @@ const parser = require('body-parser');
 const getReposByUsername = require('../helpers/github.js')
 let app = express();
 const { save, Repo } = require('../database/index.js');
-
+// let username = '';
 app.use(parser.json());
 app.use(parser.urlencoded({extended: true}));
 
 app.use(express.static(__dirname + '/../client/dist'));
 
 app.post('/repos', function (req, res) {
+  // Repo.collection.drop();
   let username = req.body.username;
-
-  Repo.collection.drop();
-
   getReposByUsername(username, (data) => {
     save(data)
 
@@ -23,7 +21,9 @@ app.post('/repos', function (req, res) {
 
 app.get('/repos', function (req, res) {
   // This route should send back the top 25 repos
-  Repo.find({}, (err, data) => {
+  let username = req.query.username;
+  // console.log('====', username);
+  Repo.find({ username }, (err, data) => {
     if(err) {
       res.status(404).send('Error getting all data from database');
     } else {
@@ -31,6 +31,12 @@ app.get('/repos', function (req, res) {
     }
   })
 });
+
+// app.get('/allusers', function(req, res) {
+//   Repo.find({}, (err, data) => {
+
+//   })
+// })
 
 let port = 1128;
 

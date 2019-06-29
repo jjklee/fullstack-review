@@ -24,18 +24,20 @@ class App extends React.Component {
     console.log(`${username} was searched`);
     axios
       .post('/repos', {
-        username: username
+        username
       })
-      .then(data => {
-        console.log('Sucessfully searched');
+      .then(() => {
+        this.getRepos(username);
+        // console.log('Sucessfully searched');
       })
       .catch(err => console.error('Error posting data'));
   }
 
-  getRepos() {
+  getRepos(username) {
     axios
-      .get('/repos')
+      .get('/repos', { params: {username}})
       .then(data => {
+        console.log('===', data)
         return this.updateState(data);
       })
       .then(repos => {
@@ -51,13 +53,9 @@ class App extends React.Component {
     }
     let repos = []
     for(let i = 0; i < len; i++) {
-      let singleRepo = {
-        reponame: '',
-        repourl: ''
-      }
-
-      singleRepo.reponame = data[i].reponame,
-      singleRepo.repourl = data[i].repourl
+      let singleRepo = {};
+      singleRepo.reponame = data[i].reponame;
+      singleRepo.repourl = data[i].repourl;
       repos.push(singleRepo)
     }
     return repos;

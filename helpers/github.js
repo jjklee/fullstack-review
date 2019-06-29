@@ -14,23 +14,16 @@ let getReposByUsername = (username, callback) => {
     if(err) {
       console.error(err);
     } else {
-      getData(data, callback)
+      formatData(data, callback)
     }
   });
 }
 
-let getData = (data, callback) => {
+let formatData = (data, callback) => {
   data = JSON.parse(data);
-  let template = {
-    repoid: 0,
-    reponame: '',
-    repourl: '',
-    username: '',
-    ownerid: 0,
-  }
 
   for(let i = 0; i < data.length; i++) {
-    let newtemp = Object.assign({}, template);
+    let newtemp = {};
     newtemp.repoid = data[i].id;
     newtemp.reponame = data[i].name;
     newtemp.repourl = data[i].clone_url;

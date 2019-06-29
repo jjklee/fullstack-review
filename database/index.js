@@ -14,7 +14,6 @@ let Repo = mongoose.model('Repo', repoSchema);
 
 let save = (data) => {
   // TODO: Your code here
-  console.log('====', data);
   // This function should save a repo or repos to the MongoDB
   const newrepo = new Repo ({
     repoid: data.repoid,
