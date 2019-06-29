@@ -27,15 +27,15 @@ class App extends React.Component {
         username
       })
       .then(() => {
-        this.getRepos(username);
+        this.getRepos();
         console.log('Sucessfully searched');
       })
       .catch(err => console.error('Error posting data'));
   }
 
-  getRepos(username) {
+  getRepos() {
     axios
-      .get('/repos', { params: {username}})
+      .get('/repos')
       .then(data => {
         return this.updateState(data);
       })
